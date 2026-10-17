@@ -1,0 +1,10 @@
+{
+  "name": "CrisisLens AI - Tactical Disaster Response & Offline Triage Platform",
+  "description": "An AI-assisted disaster-response platform engineered for rugged offline resilience, explainable triage prioritization, and real-time community-to-responder situational awareness during catastrophic events.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
