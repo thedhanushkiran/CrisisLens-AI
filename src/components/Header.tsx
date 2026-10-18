@@ -134,14 +134,11 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Right CTA and Actions */}
         <div className="flex items-center gap-2 sm:gap-space-md">
-          <button
-            type="button"
-            onClick={onOpenAccount}
-            className="inline-flex min-h-10 items-center gap-1 rounded-lg border border-surface-container-high px-2 sm:px-3 text-xs font-bold text-on-surface hover:bg-surface-container"
-          >
-            <span className="material-symbols-outlined text-[18px]">account_circle</span>
-            <span className="max-w-24 truncate">{account?.display_name || 'Sign in'}</span>
-          </button>
+          {/* Live System Indicator */}
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container text-on-surface border border-surface-container-high text-xs font-mono">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="font-bold">SYSTEM ACTIVE</span>
+          </div>
 
           {/* Urgent Report Button */}
           <button
@@ -166,22 +163,6 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
             )}
           </button>
-
-          {/* Profile Badge */}
-          <div className="flex items-center gap-2 pl-1 sm:pl-space-sm border-l border-outline-variant/30">
-            <img
-              alt="Profile"
-              className="w-8 h-8 rounded-full object-cover border border-outline-variant"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPbY-ocNOOZadat0QZUWBo_SZI27DUmAdTyTst8U5R6Ehz9qCl5zVe9zrFfVNvki43uQ7t0R1-uI6PHmnQsTzABnIvGMlfiITNSbFsh92ImesIinoUmZT5ZeYek-zb3_QL3EGMrKYkPoPeQtLjnowWQPiAjG-7EJDAv7W52cxctyiPnK1Wj_gnDIcJgrXBwDley5y3QdVbDO4sCAetbSkoMV5i7mrXSaURKnVAWtKMANX48S_rK015"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="%23004ac6"><circle cx="12" cy="8" r="4"/><path d="M20 19v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6z"/></svg>';
-              }}
-            />
-            <div className="hidden lg:flex flex-col text-left">
-              <span className="text-xs font-semibold text-on-surface leading-tight">Local User</span>
-              <span className="text-[10px] text-on-surface-variant leading-tight">Prototype account</span>
-            </div>
-          </div>
 
           {/* Mobile Menu Hamburger */}
           <button

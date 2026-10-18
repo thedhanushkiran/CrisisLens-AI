@@ -9,7 +9,7 @@ from fastapi.responses import JSONResponse
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
-from backend.app.api import accounts, misinformation, reports, responder, triage
+from backend.app.api import accounts, facilities, geo, misinformation, ml, reports, responder, triage
 from backend.app.config import get_settings
 from backend.app.database import SessionLocal
 
@@ -88,3 +88,6 @@ app.include_router(responder.router)
 app.include_router(responder.admin_router)
 app.include_router(triage.router)
 app.include_router(misinformation.router)
+app.include_router(facilities.router)
+app.include_router(geo.router)
+app.include_router(ml.router)

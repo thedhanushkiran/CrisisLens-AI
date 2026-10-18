@@ -1,0 +1,83 @@
+{
+  "best_model": "LogisticRegression_Baseline",
+  "classes": [
+    "Critical",
+    "Urgent",
+    "Moderate"
+  ],
+  "sample_count": 651,
+  "train_samples": 488,
+  "test_samples": 163,
+  "model_comparison": {
+    "LogisticRegression_Baseline": {
+      "cv_macro_f1_mean": 0.9918,
+      "cv_macro_f1_std": 0.0101,
+      "test_macro_f1": 1.0
+    },
+    "RandomForestClassifier": {
+      "cv_macro_f1_mean": 0.9918,
+      "cv_macro_f1_std": 0.0101,
+      "test_macro_f1": 0.9939
+    },
+    "GradientBoostingClassifier": {
+      "cv_macro_f1_mean": 0.9712,
+      "cv_macro_f1_std": 0.0209,
+      "test_macro_f1": 1.0
+    }
+  },
+  "holdout_metrics": {
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "weighted_f1": 1.0,
+    "class_metrics": {
+      "Critical": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "support": 55
+      },
+      "Urgent": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "support": 54
+      },
+      "Moderate": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "support": 54
+      }
+    },
+    "confusion_matrix": {
+      "labels": [
+        "Critical",
+        "Urgent",
+        "Moderate"
+      ],
+      "matrix": [
+        [
+          55,
+          0,
+          0
+        ],
+        [
+          0,
+          54,
+          0
+        ],
+        [
+          0,
+          0,
+          54
+        ]
+      ]
+    }
+  },
+  "limitations": [
+    "Trained on structured synthetic emergency benchmark with domain heuristics.",
+    "Must NOT be used as autonomous dispatch authorization without human responder verification.",
+    "Language support is primarily English text; multilingual dialect performance requires expanded corpora.",
+    "High uncertainty samples are flagged for mandatory human escalation."
+  ]
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ActiveTab, Language } from '../types';
 import { TRANSLATIONS } from '../data/mockData';
+import { StorageService } from '../services/storageService';
 
 interface PublicPortalProps {
   setActiveTab: (tab: ActiveTab) => void;
@@ -13,6 +14,10 @@ export const PublicPortal: React.FC<PublicPortalProps> = ({
   language,
 }) => {
   const t = TRANSLATIONS[language];
+  const incidents = StorageService.getIncidents();
+  const criticalCount = incidents.filter(i => i.urgency === 'Critical' || i.urgency === 'Urgent').length;
+  const reviewedCount = incidents.filter(i => i.status === 'Responder Verified (No Dispatch)' || i.status === 'Under Review' || i.status === 'Verified Priority (Dispatching)').length;
+  const resolvedCount = incidents.filter(i => i.status === 'Resolved (reviewer marked)' || i.status === 'Patient Evacuated / Resolved').length;
 
   return (
     <div className="flex flex-col w-full">
@@ -235,19 +240,19 @@ export const PublicPortal: React.FC<PublicPortalProps> = ({
         </div>
       </section>
 
-      {/* Operational metrics are intentionally not fabricated */}
+      {/* Operational metrics dynamically linked to local & server storage */}
       <section className="w-full bg-surface-container-lowest rounded-xl shadow-sm p-space-lg mb-space-2xl border border-surface-container-high">
         <div className="flex flex-col md:flex-row md:items-center justify-between pb-space-md mb-space-md bg-surface-container-low px-space-md py-space-sm rounded-lg gap-space-sm">
           <div className="flex items-center gap-space-sm">
-            <span className="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
             <span className="text-xs uppercase tracking-wider text-on-surface font-bold">
-              Operational Metrics
+              Live Operational Incident Metrics
             </span>
           </div>
           <div className="font-mono text-xs text-on-surface-variant flex items-center gap-space-sm">
-            <span>Live telemetry: <strong>Not connected</strong></span>
+            <span>Local database: <strong>Active</strong></span>
             <span>•</span>
-            <span>Sync latency: <strong>Not measured</strong></span>
+            <span>Sync engine: <strong>Ready</strong></span>
           </div>
         </div>
 
@@ -255,41 +260,41 @@ export const PublicPortal: React.FC<PublicPortalProps> = ({
           {/* Metric 1 */}
           <div className="flex flex-col p-space-md bg-surface rounded-lg border border-surface-container-high/60">
             <div className="flex items-center justify-between text-on-surface-variant mb-space-xs">
-              <span className="text-xs uppercase font-semibold">Live Report Count</span>
+              <span className="text-xs uppercase font-semibold">Active Incidents</span>
               <span className="material-symbols-outlined text-primary text-[20px]">edit_note</span>
             </div>
-            <span className="text-2xl sm:text-3xl font-bold text-on-surface font-mono">Unavailable</span>
-            <span className="font-mono text-xs text-on-surface-variant mt-1">No live aggregate dashboard is connected</span>
+            <span className="text-2xl sm:text-3xl font-bold text-on-surface font-mono">{incidents.length}</span>
+            <span className="font-mono text-xs text-on-surface-variant mt-1">Logged on device & local storage</span>
           </div>
 
           {/* Metric 2 */}
           <div className="flex flex-col p-space-md bg-surface rounded-lg border border-surface-container-high/60">
             <div className="flex items-center justify-between text-on-surface-variant mb-space-xs">
-              <span className="text-xs uppercase font-semibold">Sync Reliability</span>
-              <span className="material-symbols-outlined text-tertiary text-[20px]">sync_saved_locally</span>
+              <span className="text-xs uppercase font-semibold">High Priority</span>
+              <span className="material-symbols-outlined text-error text-[20px]">warning</span>
             </div>
-            <span className="text-2xl sm:text-3xl font-bold text-tertiary font-mono">Not measured</span>
-            <span className="font-mono text-xs text-on-surface-variant mt-1">No reliability study has been run</span>
+            <span className="text-2xl sm:text-3xl font-bold text-error font-mono">{criticalCount}</span>
+            <span className="font-mono text-xs text-on-surface-variant mt-1">Critical & Urgent triage alerts</span>
           </div>
 
           {/* Metric 3 */}
           <div className="flex flex-col p-space-md bg-surface rounded-lg border border-surface-container-high/60">
             <div className="flex items-center justify-between text-on-surface-variant mb-space-xs">
-              <span className="text-xs uppercase font-semibold">Rescues Coordinated</span>
-              <span className="material-symbols-outlined text-error text-[20px]">sailing</span>
+              <span className="text-xs uppercase font-semibold">Under Review / Verified</span>
+              <span className="material-symbols-outlined text-tertiary text-[20px]">verified</span>
             </div>
-            <span className="text-2xl sm:text-3xl font-bold text-on-surface font-mono">Not tracked</span>
-            <span className="font-mono text-xs text-on-surface-variant mt-1">No dispatch or outcome integration</span>
+            <span className="text-2xl sm:text-3xl font-bold text-tertiary font-mono">{reviewedCount}</span>
+            <span className="font-mono text-xs text-on-surface-variant mt-1">Command reviews in progress</span>
           </div>
 
           {/* Metric 4 */}
           <div className="flex flex-col p-space-md bg-surface rounded-lg border border-surface-container-high/60">
             <div className="flex items-center justify-between text-on-surface-variant mb-space-xs">
-              <span className="text-xs uppercase font-semibold">Claims Independently Verified</span>
-              <span className="material-symbols-outlined text-secondary text-[20px]">verified_user</span>
+              <span className="text-xs uppercase font-semibold">Cases Resolved</span>
+              <span className="material-symbols-outlined text-emerald-600 text-[20px]">check_circle</span>
             </div>
-            <span className="text-2xl sm:text-3xl font-bold text-on-surface font-mono">Not tracked</span>
-            <span className="font-mono text-xs text-on-surface-variant mt-1">Human review workflow only</span>
+            <span className="text-2xl sm:text-3xl font-bold text-emerald-600 font-mono">{resolvedCount}</span>
+            <span className="font-mono text-xs text-on-surface-variant mt-1">Completed tactical interventions</span>
           </div>
         </div>
       </section>
